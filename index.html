@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ScrapMate – Intake Form</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+    :root {
+      --bg: #f4f7fa;
+      --card: #fff;
+      --primary: #2f80ed;
+      --secondary: #27ae60;
+      --text: #222;
+      --contrast-bg: #000;
+      --contrast-text: #fff;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark-mode { background: #1e1e1e; color: #eee; }
+    body.high-contrast { background: var(--contrast-bg); color: var(--contrast-text); }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      padding: 12px 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { font-size: 1.25rem; font-weight: bold; color: var(--primary); }
+    .menu-btn { font-size: 1.5rem; background: none; border: none; cursor: pointer; }
+
+    nav { display: none; position: absolute; top: 58px; left: 0; width: 100%; background: var(--card); }
+    nav.show { display: block; }
+    nav a {
+      display: block; padding: 12px 16px; text-decoration: none; color: var(--text);
+      border-bottom: 1px solid #eee;
+    }
+
+    .accessibility-toggles {
+      padding: 10px 16px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: var(--card);
+      font-size: 0.9rem;
+    }
+    .accessibility-toggles label { display: flex; align-items: center; gap: 4px; }
+
+    main {
+      padding: 20px 16px;
+    }
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .part-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .part-grid label {
+      border: 1px solid #ccc;
+      padding: 8px;
+      border-radius: 4px;
+      background: #f9f9f9;
+      cursor: pointer;
+      text-align: center;
+    }
+    .submit-btn {
+      margin-top: 20px;
+      background: var(--secondary);
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      width: 100%;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">ScrapMate</div>
+    <button class="menu-btn" id="menuToggle">☰</button>
+  </header>
+
+  <nav id="navMenu">
+    <a href="#">Home</a>
+    <a href="#">New Intake</a>
+    <a href="#">Inventory</a>
+    <a href="#">Settings</a>
+  </nav>
+
+  <div class="accessibility-toggles">
+    <label><input type="checkbox" id="toggle-contrast"/> High Contrast</label>
+    <label><input type="checkbox" id="toggle-theme"/> Dark Mode</label>
+    <label><input type="checkbox" id="toggle-motion"/> Reduce Motion</label>
+  </div>
+
+  <main>
+    <form class="card">
+      <h2>Vehicle Intake</h2>
+      <label for="make">Make</label>
+      <input id="make" name="make" type="text" required />
+
+      <label for="model">Model</label>
+      <input id="model" name="model" type="text" required />
+
+      <label for="colour">Colour</label>
+      <input id="colour" name="colour" type="text" required />
+
+      <label for="year">Year</label>
+      <input id="year" name="year" type="number" required />
+
+      <label for="complete">Is the car complete?</label>
+      <select id="complete" name="complete">
+        <option value="yes">Yes</option>
+        <option value="no">No – some parts missing/damaged</option>
+      </select>
+
+      <label>Select damaged parts:</label>
+      <div class="part-grid">
+        <label><input type="checkbox" name="damaged" value="Front Bumper" /> Front Bumper</label>
+        <label><input type="checkbox" name="damaged" value="Bonnet" /> Bonnet</label>
+        <label><input type="checkbox" name="damaged" value="Doors" /> Doors</label>
+        <label><input type="checkbox" name="damaged" value="Wheels" /> Wheels</label>
+      </div>
+
+      <label>Select parts available:</label>
+      <div class="part-grid">
+        <label><input type="checkbox" name="parts" value="Engine" /> Engine</label>
+        <label><input type="checkbox" name="parts" value="Gearbox" /> Gearbox</label>
+        <label><input type="checkbox" name="parts" value="Alloy Wheels" /> Alloy Wheels</label>
+        <label><input type="checkbox" name="parts" value="Interior Trim" /> Interior Trim</label>
+        <label><input type="checkbox" name="parts" value="Exhaust" /> Exhaust</label>
+        <label><input type="checkbox" name="parts" value="Suspension" /> Suspension</label>
+      </div>
+
+      <button type="submit" class="submit-btn">Add to Yard</button>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById('menuToggle').onclick = () => {
+      document.getElementById('navMenu').classList.toggle('show');
+    };
+    document.getElementById('toggle-contrast').onchange = e => {
+      document.body.classList.toggle('high-contrast', e.target.checked);
+    };
+    document.getElementById('toggle-theme').onchange = e => {
+      document.body.classList.toggle('dark-mode', e.target.checked);
+    };
+    document.getElementById('toggle-motion').onchange = e => {
+      document.body.style.transition = e.target.checked ? 'none' : '';
+    };
+  </script>
+</body>
+</html>
