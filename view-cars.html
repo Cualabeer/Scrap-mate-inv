@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>View Cars - Scrap Intake</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #1abc9c;
+      --bg-color: #f8f9fa;
+      --text-color: #333;
+      --card-bg: #fff;
+      --border-color: #ccc;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--primary-color);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    input[type="search"] {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1.1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 0.4rem;
+      margin-bottom: 1.5rem;
+      box-sizing: border-box;
+    }
+    .car-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .car-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .car-header {
+      font-weight: bold;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .car-details {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+    .parts-list {
+      font-size: 0.95rem;
+      color: #555;
+      margin-top: 0.3rem;
+    }
+    @media (hover: none) {
+      .car-card {
+        touch-action: manipulation;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Cars in Stock</h1>
+
+  <label for="searchInput">Search by Make, Model, Year or Colour</label>
+  <input
+    type="search"
+    id="searchInput"
+    placeholder="Type to filter cars..."
+    aria-describedby="searchHelp"
+  />
+  <small id="searchHelp" style="display:block; margin-bottom:1rem; color:#555;">
+    Search is case-insensitive and filters as you type.
+  </small>
+
+  <div class="car-list" role="list" id="carList">
+    <article
+      class="car-card"
+      role="listitem"
+      tabindex="0"
+      aria-label="Ford Fiesta 2015, Red, complete"
+      data-make="ford"
+      data-model="fiesta"
+      data-year="2015"
+      data-color="red"
+    >
+      <div class="car-header">Ford Fiesta (2015)</div>
+      <div class="car-details">Colour: Red</div>
+      <div class="car-details">Status: Complete</div>
+      <div class="parts-list">Parts Available: Entire Vehicle</div>
+    </article>
+
+    <article
+      class="car-card"
+      role="listitem"
+      tabindex="0"
+      aria-label="Volkswagen Golf 2012, Blue, parts damaged"
+      data-make="volkswagen"
+      data-model="golf"
+      data-year="2012"
+      data-color="blue"
+    >
+      <div class="car-header">Volkswagen Golf (2012)</div>
+      <div class="car-details">Colour: Blue</div>
+      <div class="car-details">Status: Parts Damaged</div>
+      <div class="parts-list">Parts Available: Engine, Doors, Wheels, Battery</div>
+    </article>
+
+    <article
+      class="car-card"
+      role="listitem"
+      tabindex="0"
+      aria-label="BMW 320i 2017, Black, parts damaged"
+      data-make="bmw"
+      data-model="320i"
+      data-year="2017"
+      data-color="black"
+    >
+      <div class="car-header">BMW 320i (2017)</div>
+      <div class="car-details">Colour: Black</div>
+      <div class="car-details">Status: Parts Damaged</div>
+      <div class="parts-list">Parts Available: Transmission, Mirrors, Seats, Exhaust</div>
+    </article>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const carList = document.getElementById('carList');
+    const cars = Array.from(carList.children);
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+
+      cars.forEach(car => {
+        const make = car.dataset.make;
+        const model = car.dataset.model;
+        const year = car.dataset.year;
+        const color = car.dataset.color;
+
+        const match =
+          make.includes(query) ||
+          model.includes(query) ||
+          year.includes(query) ||
+          color.includes(query);
+
+        car.style.display = match ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
